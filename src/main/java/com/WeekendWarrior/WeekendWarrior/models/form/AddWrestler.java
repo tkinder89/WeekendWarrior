@@ -13,16 +13,19 @@ public class AddWrestler {
 
     private int weight;
 
-    private String hometown;
+    private String city;
+
+    private String state;
 
     public AddWrestler(){}
 
-    public AddWrestler(String name, int feet, int inches, int weight, String hometown){
+    public AddWrestler(String name, int feet, int inches, int weight, String city, String state){
         setName(name);
         setFeet(feet);
         setInches(inches);
         setWeight(weight);
-        setHometown(hometown);
+        setCity(city);
+        setState(state);
     }
 
     public String getName() {
@@ -41,9 +44,7 @@ public class AddWrestler {
         this.feet = feet;
     }
 
-    public int getInches() {
-        return inches;
-    }
+    public int getInches() {return inches;}
 
     public void setInches(int inches) {
         this.inches = inches;
@@ -57,15 +58,17 @@ public class AddWrestler {
         this.weight = weight;
     }
 
-    public String getHometown() {
-        return hometown;
+    public String getCity() {
+        return city;
     }
 
-    public void setHometown(String hometown) {
-        this.hometown = hometown;
+    public void setCity(String city) {
+        this.city = city;
     }
 
+    public String getState() {return state;}
 
+    public void setState(String state) {this.state = state;}
 
 
 
