@@ -13,16 +13,19 @@
 
         <label th:for="booking_Date">Booking Date</label>
         <input type="date" class="form-control" th:field="*{booking_Date}" th:value="${addBooking.booking_Date}" />
-        <!-- <p th:if="${#fields.hasErrors('feet')}" th:errors="*{feet}"></p> -->
+        <span th:errors="*{booking_Date}" class="error"></span>
 
         <label th:for="street">Street</label>
         <input class="form-control" th:field="*{street}" th:value="${addBooking.street}" />
+        <span th:errors="*{street}" class="error"></span>
 
         <label th:for="city">City</label>
         <input class="form-control" th:field="*{city}" th:value="${addBooking.city}" />
+        <span th:errors="*{city}" class="error"></span>
 
         <label th:for="state">State</label>
         <select th:field="*{state}" value="${addBooking.state}">
+                <option value=""></option>
                 <option value="AL">Alabama</option>
                 <option value="AK">Alaska</option>
                 <option value="AZ">Arizona</option>
@@ -75,11 +78,14 @@
                 <option value="WI">Wisconsin</option>
                 <option value="WY">Wyoming</option>
         </select>
+        <span th:errors="*{state}" class="error"></span>
 
 
         <label th:for="zip_Code">ZIP Code</label>
         <input class="form-control" th:field="*{zip_Code}" th:value="${addBooking.zip_Code}" />
+        <span th:errors="*{zip_Code}" class="error"></span>
     </div>
+    <input type="submit" value="Add Booking"/>
 </form>
 
 </body>

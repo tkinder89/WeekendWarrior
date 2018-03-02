@@ -6,6 +6,27 @@
 <nav th:replace="fragments :: navigation"></nav>
 <h1 th:text="${title}">Default Title</h1>
 
+<h3 th:text="@{|Height: ${wrestler.totalHeight}|}"></h3>
+<h3 th:text="@{|Weight: ${wrestler.weight}|}"></h3>
+<h3 th:text="@{|Hometown: ${wrestler.city}, ${wrestler.state}|}"></h3>
+
+
+
+<table>
+    <tr>
+        <th>Date </th>
+        <th>Company </th>
+        <th>City</th>
+    </tr>
+    <tr th:each="booking : ${wrestler.bookings}">
+        <td th:text="${#dates.format(booking.booking_Date, 'MM-dd-yyyy')}"></td>
+        <td th:text="${booking.company}"></td>
+        <td th:text="${booking.bookingLocation}"></td>
+    </tr>
+</table>
+<p><a th:href="@{|/booking/add/${wrestler.id}|}">Add Booking</a></p>
+
+
 
 
 </body>

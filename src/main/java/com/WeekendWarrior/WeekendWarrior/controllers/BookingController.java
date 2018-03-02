@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -26,26 +27,39 @@ public class BookingController {
     @Autowired
     BookingDAO bookingDAO;
 
-    @RequestMapping(value = "add", method = RequestMethod.GET)
-    public String addBookingForm(Model model){
+    @RequestMapping(value = "add/{wrestler_Id}", method = RequestMethod.GET)
+    public String addBookingForm(Model model,
+                                 @ModelAttribute
+                                 @PathVariable int wrestler_Id){
+        Wrestler booked = wrestlerDAO.findOne(wrestler_Id);
         AddBooking addBooking = new AddBooking();
+        model.addAttribute("wrestler", booked);
         model.addAttribute("title", "Add Booking");
         model.addAttribute("addBooking", addBooking);
         return "booking/add";
     }
 
-    @RequestMapping(value = "add", method = RequestMethod.POST)
-    public String processAddWrestlerForm(@ModelAttribute
-                                         @Valid AddBooking addBooking,
-                                         Errors errors,
-                                         Model model){
+    @RequestMapping(value = "add/{wrestler_Id}", method = RequestMethod.POST)
+    public String processAddBookingForm(@ModelAttribute
+                                        @Valid AddBooking addBooking,
+                                        Errors errors,
+                                        @PathVariable int wrestler_Id,
+
+                                        Model model){
+        Wrestler booked = wrestlerDAO.findOne(wrestler_Id);
+
         if (errors.hasErrors()) {
             model.addAttribute("title", "Add Booking");
             return "booking/add";
         }
 
-        //System.out.println("*********************************** Should save booking here");
-        bookingDAO.save(new Booking(addBooking));
+        Booking booking = new Booking(addBooking);
+
+        booking.setWrestler(wrestlerDAO.findOne(wrestler_Id));
+
+        bookingDAO.save(booking);
+        booked.AddBooking(booking);
+        wrestlerDAO.save(booked);
 
         return "redirect:/";
     }

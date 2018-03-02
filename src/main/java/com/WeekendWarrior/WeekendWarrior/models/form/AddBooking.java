@@ -1,7 +1,9 @@
 package com.WeekendWarrior.WeekendWarrior.models.form;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 public class AddBooking {
@@ -9,7 +11,8 @@ public class AddBooking {
     @NotEmpty(message = "Please enter the Company of the booking.")
     private String company;
 
-    @NotEmpty(message = "Enter the Date of the booking.")
+    @NotNull(message = "Enter the Date of the booking.")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date booking_Date;
 
     @NotEmpty(message = "Enter the Street of the booking address.")
@@ -21,12 +24,12 @@ public class AddBooking {
     @NotEmpty(message = "Enter the State of the booking.")
     private String state;
 
-    @NotEmpty(message = "Enter the Zip Code of the booking.")
-    private int zip_Code;
+    @NotNull(message = "Enter the zip code of the booking.")
+    private String zip_Code;
 
     public AddBooking(){}
 
-    public AddBooking(String company, Date booking_Date, String street, String city, String state, int zip_Code){
+    public AddBooking(String company, Date booking_Date, String street, String city, String state, String zip_Code){
         setCompany(company);
         setBooking_Date(booking_Date);
         setStreet(street);
@@ -55,8 +58,8 @@ public class AddBooking {
 
     public void setState(String state) {this.state = state;}
 
-    public int getZip_Code() {return zip_Code;}
+    public String getZip_Code() {return zip_Code;}
 
-    public void setZip_Code(int zip_Code) {this.zip_Code = zip_Code;}
+    public void setZip_Code(String zip_Code) {this.zip_Code = zip_Code;}
 
 }
