@@ -44,7 +44,6 @@ public class BookingController {
                                         @Valid AddBooking addBooking,
                                         Errors errors,
                                         @PathVariable int wrestler_Id,
-
                                         Model model){
         Wrestler booked = wrestlerDAO.findOne(wrestler_Id);
 
@@ -61,7 +60,7 @@ public class BookingController {
         booked.AddBooking(booking);
         wrestlerDAO.save(booked);
 
-        return "redirect:/";
+        return "redirect:/wrestler/${wrestler_Id}";
     }
 
 }
