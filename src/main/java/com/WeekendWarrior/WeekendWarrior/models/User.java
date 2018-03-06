@@ -1,5 +1,6 @@
 package com.WeekendWarrior.WeekendWarrior.models;
 
+import com.WeekendWarrior.WeekendWarrior.models.form.AddUser;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -16,23 +17,22 @@ public class User {
     @Column(name="user_id")
     private int id;
 
+    @OneToOne
+    private Wrestler wrestler;
+
     @Column(name="email")
     @Email(message = "*Please provide a valid Email")
     private String email;
 
     @Column(name = "password")
-    @Length(min = 5, message = "*Your passowrd must have at least 5 characters")
+    @Length(min = 5, message = "*Your password must have at least 5 characters")
     @NotEmpty(message = "*Please provide your password")
     private String password;
 
     @Column(name = "first_name")
-    @NotEmpty(message = "*Please provide your first name")
     private String firstName;
 
-
-
     @Column(name = "last_name")
-    @NotEmpty(message = "*Please provide your last name")
     private String lastName;
 
     @Column(name = "active")
@@ -46,6 +46,13 @@ public class User {
     //CONSTRUCTOR
 
     public User(){}
+
+    public User(AddUser addUser){
+        setPassword(addUser.getPassword());
+        setEmail(addUser.getEmail());
+        setFirstName(addUser.getFirstName());
+        setLastName(addUser.getLastName());
+    }
 
     //Getters and Setters
 
@@ -103,6 +110,14 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public Wrestler getWrestler() {
+        return wrestler;
+    }
+
+    public void setWrestler(Wrestler wrestler) {
+        this.wrestler = wrestler;
     }
 
 }

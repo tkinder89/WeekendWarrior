@@ -2,9 +2,11 @@ package com.WeekendWarrior.WeekendWarrior.models.form;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.NotNull;
+
 public class AddWrestler {
 
-    @NotEmpty(message = "You need to enter your wrestling name.")
+    @NotEmpty(message = "*You need to enter your wrestling name.")
     private String name;
 
     private int feet;
@@ -54,9 +56,7 @@ public class AddWrestler {
         return weight;
     }
 
-    public void setWeight(int weight) {
-        this.weight = weight;
-    }
+    public void setWeight(int weight) {this.weight = weight;}
 
     public String getCity() {
         return city;
