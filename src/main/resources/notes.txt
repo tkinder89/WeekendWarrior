@@ -1,11 +1,4 @@
-2018-03-02 15:10:14.302  WARN 5836 --- [nio-8080-exec-1] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 1452, SQLState: 23000
+Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByEmail(auth.getName());
 
-2018-03-02 15:10:14.303 ERROR 5836 --- [nio-8080-exec-1] o.h.engine.jdbc.spi.SqlExceptionHelper   :
-Cannot add or update a child row: a foreign key constraint fails (`weekend_warrior`.`booking`, CONSTRAINT `FKelg2mu1104ehw1ox5ta1hj8x3`
-FOREIGN KEY (`booking_id`) REFERENCES `wrestler` (`wrestler_id`))
-
-2018-03-02 15:10:14.325 ERROR 5836 --- [nio-8080-exec-1] o.a.c.c.C.[.[.[/].[dispatcherServlet]    :
-Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception
-[Request processing failed; nested exception is org.springframework.dao.DataIntegrityViolationException:
-could not execute statement; SQL [n/a]; constraint [null]; nested exception is org.hibernate.exception.ConstraintViolationException:
-could not execute statement] with root cause
+        if(user.getRoles().contains(roleRepository.findByRole("ADMIN"))) {

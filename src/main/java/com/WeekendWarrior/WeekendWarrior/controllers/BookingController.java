@@ -1,12 +1,17 @@
 package com.WeekendWarrior.WeekendWarrior.controllers;
 
+import com.WeekendWarrior.WeekendWarrior.UserService;
 import com.WeekendWarrior.WeekendWarrior.models.Booking;
+import com.WeekendWarrior.WeekendWarrior.models.User;
 import com.WeekendWarrior.WeekendWarrior.models.Wrestler;
 import com.WeekendWarrior.WeekendWarrior.models.data.BookingDAO;
+import com.WeekendWarrior.WeekendWarrior.models.data.RoleRepository;
 import com.WeekendWarrior.WeekendWarrior.models.data.WrestlerDAO;
 import com.WeekendWarrior.WeekendWarrior.models.form.AddBooking;
 import com.WeekendWarrior.WeekendWarrior.models.form.AddWrestler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -22,6 +27,12 @@ import javax.validation.Valid;
 public class BookingController {
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
     WrestlerDAO wrestlerDAO;
 
     @Autowired
@@ -31,6 +42,11 @@ public class BookingController {
     public String addBookingForm(Model model,
                                  @ModelAttribute
                                  @PathVariable int wrestler_Id){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByEmail(auth.getName());
+
+        model.addAttribute("user", user);
+
         Wrestler booked = wrestlerDAO.findOne(wrestler_Id);
         AddBooking addBooking = new AddBooking();
         model.addAttribute("wrestler", booked);
@@ -45,9 +61,14 @@ public class BookingController {
                                         Errors errors,
                                         @PathVariable int wrestler_Id,
                                         Model model){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByEmail(auth.getName());
+
+
         Wrestler booked = wrestlerDAO.findOne(wrestler_Id);
 
         if (errors.hasErrors()) {
+            model.addAttribute("user", user);
             model.addAttribute("title", "Add Booking");
             return "booking/add";
         }
@@ -60,7 +81,7 @@ public class BookingController {
         booked.AddBooking(booking);
         wrestlerDAO.save(booked);
 
-        return "redirect:/wrestler/${wrestler_Id}";
+        return "redirect:/wrestler/view/{wrestler_Id}";
     }
 
 }
