@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
+import java.net.URL;
 
 @Controller
 @RequestMapping(value = "booking")
@@ -83,5 +84,33 @@ public class BookingController {
 
         return "redirect:/wrestler/view/{wrestler_Id}";
     }
+
+    @RequestMapping(path = "remove/{wrestler_Id}/{booking_id}", method = RequestMethod.GET)
+    public String removeBooking(@ModelAttribute
+                                @PathVariable int wrestler_Id,
+                                @ModelAttribute
+                                @PathVariable int booking_id) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByEmail(auth.getName());
+
+        if(user.getId() == wrestler_Id) {
+            Wrestler wrestler = wrestlerDAO.findOne(wrestler_Id);
+            bookingDAO.delete(booking_id);
+
+            return "redirect:/wrestler/view/"+ wrestler.getId();
+        }else{
+            return "redirect:/";
+        }
+    }
+
+    @RequestMapping(path = "view", method = RequestMethod.GET)
+    public String viewBooking(Model model){
+        String googleMap = "https://maps.googleapis.com/maps/api/js?key=AIzaSyBy96z7gN-tNEqMcUxRRaoboY-6E6abmFI&callback=initMap";
+        model.addAttribute(googleMap, "googleMapAPI");
+
+        return "booking/view";
+    }
+
 
 }

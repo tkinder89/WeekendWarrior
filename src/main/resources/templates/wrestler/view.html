@@ -6,26 +6,37 @@
 <nav th:replace="fragments :: navigation"></nav>
 <h1 th:text="${title}">Default Title</h1>
 
+<div th:if="${editBooking}">
+    <a th:href="@{|/wrestler/edit/${wrestler.id}|}">Edit Wrestler</a>
+</div>
+
 <h3 th:text="@{|Height: ${wrestler.totalHeight}|}"></h3>
 <h3 th:text="@{|Weight: ${wrestler.weight}|}"></h3>
 <h3 th:text="@{|Hometown: ${wrestler.city}, ${wrestler.state}|}"></h3>
 
 
 
-<table>
+<table style="width:50%">
     <tr>
         <th>Date </th>
         <th>Company </th>
         <th>City</th>
+        <th th:unless="${editBooking}">&nbsp;</th>
+        <th th:if="${editBooking}">&nbsp;</th>
+
+
     </tr>
     <tr th:each="booking : ${wrestler.bookings}">
         <td th:text="${#dates.format(booking.booking_Date, 'MM-dd-yyyy')}"></td>
         <td th:text="${booking.company}"></td>
         <td th:text="${booking.bookingLocation}"></td>
+        <td th:unless="${editBooking}">&nbsp;</td>
+        <td th:if="${editBooking}"><a th:href="@{|/booking/remove/${wrestler.id}/${booking.id}|}">Delete</a></td>
+
     </tr>
 </table>
 
-<div th:if="${addBooking}">
+<div th:if="${editBooking}">
     <p><a th:href="@{|/booking/add/${wrestler.id}|}">Add Booking</a></p>
 </div>
 
