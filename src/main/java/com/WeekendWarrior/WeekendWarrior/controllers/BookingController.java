@@ -10,6 +10,7 @@ import com.WeekendWarrior.WeekendWarrior.models.data.WrestlerDAO;
 import com.WeekendWarrior.WeekendWarrior.models.form.AddBooking;
 import com.WeekendWarrior.WeekendWarrior.models.form.AddWrestler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.method.P;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -104,10 +105,19 @@ public class BookingController {
         }
     }
 
-    @RequestMapping(path = "view", method = RequestMethod.GET)
-    public String viewBooking(Model model){
+    @RequestMapping(path = "view/{wrestler_Id}/{booking_Id}", method = RequestMethod.GET)
+    public String viewBooking(@ModelAttribute
+                              @PathVariable int wrestler_Id,
+                              @ModelAttribute
+                              @PathVariable int booking_Id,
+                              Model model){
+
+        Booking booking = bookingDAO.findOne(booking_Id);
+        String address = booking.getStreet() + " " + booking.getCity() + ", " + booking.getState() + " " + booking.getZip_Code();
+
         String googleMap = "https://maps.googleapis.com/maps/api/js?key=AIzaSyBy96z7gN-tNEqMcUxRRaoboY-6E6abmFI&callback=initMap";
-        model.addAttribute(googleMap, "googleMapAPI");
+        model.addAttribute("googleMapAPI", googleMap );
+        model.addAttribute("bookingAddress", address);
 
         return "booking/view";
     }
